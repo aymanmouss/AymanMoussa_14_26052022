@@ -29,7 +29,6 @@ footer {
 /* Headings */
 h1,
 h2,
-h3,
 h4,
 h5,
 h6 {
@@ -66,6 +65,7 @@ table {
   border-spacing: 0;
   max-width: 100%;
   width: 100%;
+  z-index: -1;
 }
 
 /*** HEADER ***/
