@@ -8,9 +8,6 @@ function App() {
       <Modal />
       <h1 className='dashboard-title'>Current Employees</h1>
       <Table />
-      <div className='addData'>
-        <button className='addDataBtn'>ADD</button>
-      </div>
     </div>
   );
 }

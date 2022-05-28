@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { openModal } from "../../redux/employeesSlice";
 import "./style.css";
+
 const Table = () => {
+  const dispatch = useDispatch();
   return (
     <div className='table'>
       <div className='table-header'>
@@ -98,6 +102,11 @@ const Table = () => {
           <p>1</p>
           <p>&raquo;</p>
         </div>
+      </div>
+      <div className='addData'>
+        <button className='addDataBtn' onClick={() => dispatch(openModal())}>
+          ADD
+        </button>
       </div>
     </div>
   );
