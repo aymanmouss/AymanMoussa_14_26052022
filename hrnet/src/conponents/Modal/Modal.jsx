@@ -16,18 +16,15 @@ const Modal = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [startDate, seStartDate] = useState("");
-  const [street, seStreet] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [departmentState, setdepartmentState] = useState("");
-  // All employees infos
-  const [employeesinfo, setEmployeesinfo] = useState({});
+
   // modal display from redux state
   const dispatch = useDispatch();
   const modaleState = useSelector((state) => state.employees.modal);
-  const employeesData = useSelector((state) => state.employees.employeesData);
+
   const department = [
     "Sales",
     "Marketing",
@@ -35,7 +32,9 @@ const Modal = () => {
     "Human Resource",
     "Legal",
   ];
-
+  const handlOnChange = (e) => {
+    setFirstName(e.target.value);
+  };
   if (modaleState) return null;
   return (
     <div className='modal'>
@@ -51,15 +50,13 @@ const Modal = () => {
                 value={firstName}
                 type='text'
                 name='first-name'
-                onKeyUp={(e) => {
-                  setFirstName(e.target.value);
-                  console.log(firstName);
-                }}
+                onChange={handlOnChange}
               />
             </div>
             <div className='employeeInfo multi'>
               <label htmlFor='Last-Name'>Last Name</label>
               <input
+                value={lastName}
                 type='text'
                 name='last-name'
                 onChange={(e) => setLastName(e.target.value)}
@@ -68,6 +65,7 @@ const Modal = () => {
             <div className='employeeInfo multi'>
               <label htmlFor='date-of-birth'>Date of Birth</label>
               <input
+                value={dateOfBirth}
                 type='date'
                 name='date-of-birth'
                 onChange={(e) => setDateOfBirth(e.target.value)}
@@ -77,23 +75,26 @@ const Modal = () => {
           <div className='employeeInfo'>
             <label htmlFor='start-date'>Start Date</label>
             <input
+              value={startDate}
               type='date'
               name='start-date'
-              onChange={(e) => seStartDate(e.target.value)}
+              onChange={(e) => setStartDate(e.target.value)}
             />
           </div>
           <div class='formGroup'>
             <div className='employeeInfo multi'>
               <label htmlFor='street'>Street</label>
               <input
+                value={street}
                 type='text'
                 name='street'
-                onChange={(e) => seStreet(e.target.value)}
+                onChange={(e) => setStreet(e.target.value)}
               />
             </div>
             <div className='employeeInfo multi'>
               <label htmlFor='city'>City</label>
               <input
+                value={city}
                 type='text'
                 name='city'
                 onChange={(e) => setCity(e.target.value)}
@@ -108,7 +109,9 @@ const Modal = () => {
                 name='state'
                 value={inputeState}
                 className='inputBtn'
-                onClick={() => setDisplayState(!displayState)}
+                onClick={(e) => {
+                  setDisplayState(!displayState);
+                }}
               />
               {displayState && (
                 <ul className='optionList'>
@@ -118,7 +121,6 @@ const Modal = () => {
                         className='clicked'
                         onClick={(e) => {
                           setInputState(e.target.innerText);
-                          setState(e.target.innerText);
                           setDisplayState(!displayState);
                         }}
                       >
@@ -157,7 +159,6 @@ const Modal = () => {
                       <li
                         onClick={(e) => {
                           setInputDepartment(e.target.innerText);
-                          setdepartmentState(e.target.innerText);
                           setDisplay(!display);
                         }}
                       >
@@ -184,12 +185,21 @@ const Modal = () => {
                       startDate: startDate,
                       street: street,
                       city: city,
-                      state: state,
+                      state: inputeState,
                       zipCode: zipCode,
-                      department: departmentState,
+                      department: inputeDepartment,
                     })
                   );
-                  console.log(employeesData);
+                  dispatch(openModal());
+                  setFirstName("");
+                  setLastName("");
+                  setDateOfBirth("");
+                  setStartDate("");
+                  setStreet("");
+                  setCity("");
+                  setInputState("--- State ---");
+                  setZipCode("");
+                  setInputDepartment("--- Department ---");
                 }}
               />
             </div>

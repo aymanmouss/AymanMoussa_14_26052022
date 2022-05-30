@@ -80,14 +80,14 @@ table td {
 }
 
 table th {
-  font: 400 1.25em/1 "Oswald", sans-serif;
+  font: 400 "Oswald", sans-serif;
   letter-spacing: 0.025em;
   outline: none;
   padding-right: 2em;
   text-align: left;
   text-transform: uppercase;
 }
-
+/* 1.25em/1 */
 table th:hover,
 table th:focus {
   color: #3b3b3b;

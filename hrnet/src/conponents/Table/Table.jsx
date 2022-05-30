@@ -1,20 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../redux/employeesSlice";
+import Pagination from "../pagination";
 import "./style.css";
 
 const Table = () => {
   const dispatch = useDispatch();
+  const employeesData = useSelector((state) => state.employees.employeesData);
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    setData(employeesData);
+  }, [employeesData]);
+  // useEffect(() => {
+  //   console.log(employeesData);
+  //   window.localStorage.setItem(
+  //     "HRNET_EMPLOYEE",
+  //     JSON.stringify(employeesData)
+  //   );
+  // }, employeesData);
+  // const employee_local_data = JSON.parse(
+  //   window.localStorage.getItem("HRNET_EMPLOYEE")
+  // );
+
+  // pagination Variables
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage, setDataPerPage] = useState(2);
+  const indexOfLastPage = currentPage * dataPerPage;
+  const indexOfFirstEmployee = indexOfLastPage - dataPerPage;
+  // new List with pagination
+  const currentEmployees = employeesData.slice(
+    indexOfFirstEmployee,
+    indexOfLastPage
+  );
+  // sorting variables
+  const [order, setOrder] = useState("ASD");
+  const [sorted, setSorted] = useState(null);
+  // const sorting = (tableData) => {
+  //   if (order === "ASD") {
+  //     sorted(
+
+  //     );
+  //     setOrder("DSC");
+  //     console.log(currentEmployees);
+  //   }
+  //   if (order === "DSC") {
+  //     setSorted(
+  //       [currentEmployees].sort((a, b) => (a.tableData < b.tableData ? 1 : -1))
+  //     );
+  //   }
+  //   setOrder("ASD");
+  // };
+  // change pages with pagination
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div className='table'>
       <div className='table-header'>
         <div className='entries'>
           <label htmlFor='entries-show'>Show</label>
-          <select name='entries-show' className='entriesShow'>
+          <select
+            name='entries-show'
+            className='entriesShow'
+            onChange={(e) => {
+              setCurrentPage(1);
+              setDataPerPage(e.target.value);
+            }}
+          >
+            <option value={2}>2</option>
+            <option value={5}>5</option>
             <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
+            <option value={50}>100</option>
           </select>
           <p>entries</p>
         </div>
@@ -52,7 +107,7 @@ const Table = () => {
               City <i class='fa-solid fa-sort'></i>
             </th>
             <th>
-              Statet <i class='fa-solid fa-sort'></i>
+              State <i class='fa-solid fa-sort'></i>
             </th>
             <th>
               Zip Code <i class='fa-solid fa-sort'></i>
@@ -60,47 +115,35 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label='First-Name'>Ayman</td>
-            <td data-label='Last-Name'>Moussa</td>
-            <td data-label='Start-Date'>12/04/2015</td>
-            <td data-label='Departement'>06</td>
-            <td data-label='Date-of-Birth'>04/05/1987</td>
-            <td data-label='Street'>Boulevar de Riquier</td>
-            <td data-label='City'>Nice</td>
-            <td data-label='Statet'>Alpes-Maritimes</td>
-            <td data-label='Zip-Code'>06300</td>
-          </tr>
-          <tr>
-            <td data-label='First-Name'>Ayman</td>
-            <td data-label='Last-Name'>Moussa</td>
-            <td data-label='Start-Date'>12/04/2015</td>
-            <td data-label='Departement'>06</td>
-            <td data-label='Date-of-Birth'>04/05/1987</td>
-            <td data-label='Street'>Boulevar de Riquier</td>
-            <td data-label='City'>Nice</td>
-            <td data-label='Statet'>Alpes-Maritimes</td>
-            <td data-label='Zip-Code'>06300</td>
-          </tr>
-          <tr>
-            <td data-label='First-Name'>Ayman</td>
-            <td data-label='Last-Name'>Moussa</td>
-            <td data-label='Start-Date'>12/04/2015</td>
-            <td data-label='Departement'>06</td>
-            <td data-label='Date-of-Birth'>04/05/1987</td>
-            <td data-label='Street'>Boulevar de Riquier</td>
-            <td data-label='City'>Nice</td>
-            <td data-label='Statet'>Alpes-Maritimes</td>
-            <td data-label='Zip-Code'>06300</td>
-          </tr>
+          {currentEmployees.map((employee, index) => {
+            return (
+              <tr key={index}>
+                <td data-label='First-Name'>{employee.firstName}</td>
+                <td data-label='Last-Name'>{employee.lastName}</td>
+                <td data-label='Start-Date'>{employee.startDate}</td>
+                <td data-label='Departement'>{employee.department}</td>
+                <td data-label='Date-of-Birth'>{employee.dateOfBirth}</td>
+                <td data-label='Street'>{employee.street}</td>
+                <td data-label='City'>{employee.city}</td>
+                <td data-label='Statet'>{employee.state}</td>
+                <td data-label='Zip-Code'>{employee.zipCode}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <div className='tableFooter'>
-        <p>Showing 1 to 2 of 2 entries</p>
+        <p>
+          Showing {currentPage} to{" "}
+          {Math.ceil(employeesData.length / dataPerPage)} of
+          {Math.ceil(employeesData.length / dataPerPage)} entries
+        </p>
         <div class='pagination'>
-          <p>&laquo;</p>
-          <p>1</p>
-          <p>&raquo;</p>
+          <Pagination
+            dataPerPage={dataPerPage}
+            totalemployees={employeesData.length}
+            paginate={paginate}
+          />
         </div>
       </div>
       <div className='addData'>
