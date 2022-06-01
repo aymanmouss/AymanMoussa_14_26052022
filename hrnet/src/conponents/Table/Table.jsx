@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { openModal } from "../../redux/employeesSlice";
 import Pagination from "../pagination";
@@ -8,7 +8,9 @@ import "./style.css";
 const Table = () => {
   const dispatch = useDispatch();
   const employeesData = useSelector((state) => state.employees.employeesData);
-
+  useEffect(() => {
+    setData(employeesData);
+  }, [employeesData]);
   // new sorted list of employeesData
   const [data, setData] = useState(employeesData);
 
@@ -18,6 +20,7 @@ const Table = () => {
   const indexOfLastPage = currentPage * dataPerPage;
   const indexOfFirstEmployee = indexOfLastPage - dataPerPage;
   const [search, setSearch] = useState("");
+
   // new List with pagination ( we use the sorted data to slice the list)
   const currentEmployees = service
     .filter(data, search)
@@ -25,6 +28,20 @@ const Table = () => {
 
   // change pages with pagination
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const [order, setOrder] = useState("");
+
+  const initialStateIcons = <i className='fa-solid fa-sort'></i>;
+  // icon sorting display
+  const [fistNamIcon, setFistNameIcon] = useState(initialStateIcons);
+  const [lastNamIcon, setLastNameIcon] = useState(initialStateIcons);
+  const [startDateIcon, setStartDateIcon] = useState(initialStateIcons);
+  const [departementIcon, setDepartementIcon] = useState(initialStateIcons);
+  const [dateOfBirthIcon, setDateOfBirthIcon] = useState(initialStateIcons);
+  const [streetIcon, setStreetIcon] = useState(initialStateIcons);
+  const [cityIcon, setCityIcon] = useState(initialStateIcons);
+  const [stateIcon, setStateIcon] = useState(initialStateIcons);
+  const [zipCodeIcon, setZipCodeIcon] = useState(initialStateIcons);
+
   return (
     <div className='table'>
       <div className='table-header'>
@@ -61,66 +78,228 @@ const Table = () => {
           <tr>
             <th
               onClick={() => {
-                setData(service.dataSorting("firstName", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setFistNameIcon,
+                  "firstName",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              First Name <i className='fa-solid fa-sort'></i>
+              First Name {fistNamIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("lastName", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setLastNameIcon,
+                  "lastName",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              Last Name <i className='fa-solid fa-sort'></i>
+              Last Name {lastNamIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("startDate", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setStartDateIcon,
+                  "startDate",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              Start Date <i className='fa-solid fa-sort'></i>
+              Start Date {startDateIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("department", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setDepartementIcon,
+                  "department",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              Departement <i className='fa-solid fa-sort'></i>
+              Departement {departementIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("dateOfBirth", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setDateOfBirthIcon,
+                  "dateOfBirth",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              Date of Birth <i className='fa-solid fa-sort'></i>
+              Date of Birth {dateOfBirthIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("street", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setStreetIcon,
+                  "street",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              Street <i className='fa-solid fa-sort'></i>
+              Street {streetIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("city", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setCityIcon,
+                  "city",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              City <i className='fa-solid fa-sort'></i>
+              City {cityIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("state", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setStateIcon,
+                  "state",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              State <i className='fa-solid fa-sort'></i>
+              State {stateIcon}
             </th>
             <th
               onClick={() => {
-                setData(service.dataSorting("zipCode", employeesData));
+                service.resetIcon(
+                  setFistNameIcon,
+                  setLastNameIcon,
+                  setStartDateIcon,
+                  setDepartementIcon,
+                  setDateOfBirthIcon,
+                  setStreetIcon,
+                  setCityIcon,
+                  setStateIcon,
+                  setZipCodeIcon
+                );
+                service.iconswitch(
+                  order,
+                  setOrder,
+                  setZipCodeIcon,
+                  "zipCode",
+                  setData,
+                  employeesData
+                );
               }}
             >
-              Zip Code <i className='fa-solid fa-sort'></i>
+              Zip Code {zipCodeIcon}
             </th>
           </tr>
         </thead>

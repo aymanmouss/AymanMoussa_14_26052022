@@ -1,32 +1,19 @@
 // variables for sorting type
 let order = "ASD";
 
-// initialState of icones
-const iconn = {
-  city: <i class='fa-solid fa-sort'></i>,
-  dateOfBirth: <i class='fa-solid fa-sort'></i>,
-  department: <i class='fa-solid fa-sort'></i>,
-  firstName: <i class='fa-solid fa-sort'></i>,
-  lastName: <i class='fa-solid fa-sort'></i>,
-  startDate: <i class='fa-solid fa-sort'></i>,
-  state: <i class='fa-solid fa-sort'></i>,
-  street: <i class='fa-solid fa-sort'></i>,
-  zipCode: <i class='fa-solid fa-sort'></i>,
-};
-
 // creating a new sorted list and seted to data
 
 const dataSorting = (tableData, employeesData) => {
   if (order === "ASD") {
     const asd = [...employeesData].sort((a, b) =>
-      a[tableData].toLowerCase() > b[tableData] ? 1 : -1
+      a[tableData].toUpperCase() > b[tableData].toUpperCase() ? 1 : -1
     );
     order = "DSC";
     return asd;
   }
   if (order === "DSC") {
     const dsc = [...employeesData].sort((a, b) =>
-      a[tableData].toLowerCase() < b[tableData] ? 1 : -1
+      a[tableData].toUpperCase() < b[tableData].toUpperCase() ? 1 : -1
     );
     order = "ASD";
     return dsc;
@@ -34,7 +21,7 @@ const dataSorting = (tableData, employeesData) => {
 };
 // fister function
 const filter = (data, search) => {
-  return data.filter((val) => {
+  return data?.filter((val) => {
     if (search === "") {
       return val;
     } else if (
@@ -52,8 +39,55 @@ const filter = (data, search) => {
     }
   });
 };
+const iconswitch = (
+  order,
+  setOrder,
+  seticon,
+  thData,
+  setData,
+  employeesData
+) => {
+  if (order === "") {
+    setOrder("DSC");
+    seticon(<i className='fa-solid fa-arrow-down-short-wide'></i>);
+    setData(dataSorting(thData, employeesData));
+  } else if (order === "DSC") {
+    setOrder("ASD");
+    seticon(<i className='fa-solid fa-arrow-up-short-wide'></i>);
+    setData(dataSorting(thData, employeesData));
+  } else {
+    seticon(<i className='fa-solid fa-sort'></i>);
+    setOrder("");
+    setData(employeesData);
+  }
+};
+
+const resetIcon = (
+  setFistNameIcon,
+  setLastNameIcon,
+  setStartDateIcon,
+  setDepartementIcon,
+  setDateOfBirthIcon,
+  setStreetIcon,
+  setCityIcon,
+  setStateIcon,
+  setZipCodeIcon
+) => {
+  setFistNameIcon(<i className='fa-solid fa-sort'></i>);
+  setLastNameIcon(<i className='fa-solid fa-sort'></i>);
+  setStartDateIcon(<i className='fa-solid fa-sort'></i>);
+  setDepartementIcon(<i className='fa-solid fa-sort'></i>);
+  setDateOfBirthIcon(<i className='fa-solid fa-sort'></i>);
+  setStreetIcon(<i className='fa-solid fa-sort'></i>);
+  setCityIcon(<i className='fa-solid fa-sort'></i>);
+  setStateIcon(<i className='fa-solid fa-sort'></i>);
+  setZipCodeIcon(<i className='fa-solid fa-sort'></i>);
+};
+
 const service = {
   dataSorting,
   filter,
+  iconswitch,
+  resetIcon,
 };
 export default service;
