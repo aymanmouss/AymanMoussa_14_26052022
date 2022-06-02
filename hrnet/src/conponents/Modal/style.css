@@ -9,7 +9,7 @@
   z-index: 3;
 }
 .modal-form {
-  margin: 13vh auto;
+  margin: 10vh auto;
   max-width: 810px;
   position: relative;
 }
@@ -134,4 +134,28 @@ li:not(:last-child) {
 }
 .activeState {
   display: none;
+}
+.errorMessage {
+  background-color: #dc3544;
+  color: #fff;
+  max-width: 650px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  border-radius: 10px;
+}
+.errorMessage p {
+  padding: 30px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.errx {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.errx:hover {
+  color: rgb(225, 225, 225);
 }

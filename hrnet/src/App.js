@@ -6,7 +6,6 @@ function App() {
   return (
     <div className='container'>
       <Modal />
-      <h1 className='dashboard-title'>Current Employees</h1>
       <Table />
     </div>
   );

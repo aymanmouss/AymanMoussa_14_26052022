@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { openModal } from "../../redux/employeesSlice";
+import { openModal, employeesAdded } from "../../redux/employeesSlice";
 import Pagination from "../pagination";
 import service from "../services";
 import "./style.css";
 
 const Table = () => {
+  const employeesAddedState = useSelector(
+    (state) => state.employees.successMessage
+  );
+
   const dispatch = useDispatch();
   const employeesData = useSelector((state) => state.employees.employeesData);
-  useEffect(() => {
-    setData(employeesData);
-  }, [employeesData]);
+
   // new sorted list of employeesData
   const [data, setData] = useState(employeesData);
 
@@ -44,6 +46,16 @@ const Table = () => {
 
   return (
     <div className='table'>
+      {employeesAddedState && (
+        <div className='successMessage'>
+          <p>Employee Created!</p>
+          <i
+            onClick={() => dispatch(employeesAdded())}
+            class='fa-solid fa-xmark succx'
+          ></i>
+        </div>
+      )}
+      <h1 className='dashboard-title'>Current Employees</h1>
       <div className='table-header'>
         <div className='entries'>
           <label htmlFor='entries-show'>Show</label>
@@ -65,6 +77,7 @@ const Table = () => {
           <label htmlFor='search'>Search:</label>
           <input
             className='dataSearshInput'
+            id='search'
             name='search'
             type='search'
             onChange={(e) => {

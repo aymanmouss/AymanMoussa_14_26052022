@@ -94,6 +94,7 @@ export const employeesSlice = createSlice({
   initialState: {
     modal: true,
     employeesData: employeesDatatest,
+    successMessage: false,
   },
   reducers: {
     openModal: (state) => {
@@ -102,8 +103,12 @@ export const employeesSlice = createSlice({
     addEmployee: (state, action) => {
       state.employeesData.unshift(action.payload);
     },
+    employeesAdded: (state) => {
+      state.successMessage = !state.successMessage;
+    },
   },
 });
-export const { openModal, addEmployee } = employeesSlice.actions;
+export const { openModal, addEmployee, employeesAdded } =
+  employeesSlice.actions;
 
 export default employeesSlice.reducer;

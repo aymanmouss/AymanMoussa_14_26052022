@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addEmployee, openModal } from "../../redux/employeesSlice";
+import {
+  addEmployee,
+  openModal,
+  employeesAdded,
+} from "../../redux/employeesSlice";
+import DropDownMenu from "../Module/DropDownMenu";
 import { dataState } from "../Table/dataStates";
 import "./style.css";
 const Modal = () => {
-  // dropdown menu for Department
-  const [display, setDisplay] = useState("");
-  // dropdown menu for State
-  const [displayState, setDisplayState] = useState(false);
   // iput value for State dropdown menu
   const [inputeState, setInputState] = useState("--- State ---");
   // iput value for State dropdown menu
@@ -35,9 +36,23 @@ const Modal = () => {
   const handlOnChange = (e) => {
     setFirstName(e.target.value);
   };
+  // Error form Meassage
+  const [errorMessage, setErrorMessage] = useState(false);
+  const handlError = () => {
+    setErrorMessage(false);
+  };
   if (modaleState) return null;
   return (
     <div className='modal'>
+      {errorMessage && (
+        <div className='errorMessage'>
+          <p>
+            At least the firstName and lastName must be filled out when creating
+            an employee.
+          </p>
+          <i onClick={handlError} class='fa-solid fa-xmark errx'></i>
+        </div>
+      )}
       <div className='modal-form'>
         <i class='fa-solid fa-x' onClick={() => dispatch(openModal())}></i>
         <h1 className='modal-title'>HRnet</h1>
@@ -103,33 +118,11 @@ const Modal = () => {
           </div>
           <div class='formGroup'>
             <div className='employeeInfo multi flex2 relative'>
-              <label htmlFor='state'>State</label>
-              <input
-                type='button'
-                name='state'
-                value={inputeState}
-                className='inputBtn'
-                onClick={(e) => {
-                  setDisplayState(!displayState);
-                }}
+              {/* dropdown menu Module*/}
+              <DropDownMenu
+                data={dataState}
+                inputeDepartments={setInputState}
               />
-              {displayState && (
-                <ul className='optionList'>
-                  {dataState.map((data, index) => {
-                    return (
-                      <li
-                        className='clicked'
-                        onClick={(e) => {
-                          setInputState(e.target.innerText);
-                          setDisplayState(!displayState);
-                        }}
-                      >
-                        {data}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
             </div>
             <div className='employeeInfo multi'>
               <label htmlFor='zip-code'>Zip Code</label>
@@ -142,32 +135,11 @@ const Modal = () => {
           </div>
           <div class='formGroup flexStart '>
             <div className='employeeInfo multi flex3 relative'>
-              <label htmlFor='department'>Department</label>
-              <input
-                type='button'
-                name='department'
-                value={inputeDepartment}
-                className='inputBtn '
-                onClick={(e) => {
-                  setDisplay(!display);
-                }}
+              {/* dropdown menu Module*/}
+              <DropDownMenu
+                data={department}
+                inputeDepartments={setInputDepartment}
               />
-              {display && (
-                <ul className='optionList'>
-                  {department.map((dep) => {
-                    return (
-                      <li
-                        onClick={(e) => {
-                          setInputDepartment(e.target.innerText);
-                          setDisplay(!display);
-                        }}
-                      >
-                        {dep}
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
             </div>
             <div className='employeeInfo multi'>
               <input
@@ -177,29 +149,35 @@ const Modal = () => {
                 className='inputBtnSubmit'
                 onClick={(e) => {
                   e.preventDefault();
-                  dispatch(
-                    addEmployee({
-                      firstName: firstName,
-                      lastName: lastName,
-                      dateOfBirth: dateOfBirth,
-                      startDate: startDate,
-                      street: street,
-                      city: city,
-                      state: inputeState,
-                      zipCode: zipCode,
-                      department: inputeDepartment,
-                    })
-                  );
-                  dispatch(openModal());
-                  setFirstName("");
-                  setLastName("");
-                  setDateOfBirth("");
-                  setStartDate("");
-                  setStreet("");
-                  setCity("");
-                  setInputState("--- State ---");
-                  setZipCode("");
-                  setInputDepartment("--- Department ---");
+                  if (firstName === "" || lastName === "") {
+                    setErrorMessage(true);
+                  } else {
+                    dispatch(
+                      addEmployee({
+                        firstName: firstName,
+                        lastName: lastName,
+                        dateOfBirth: dateOfBirth.format("DD/MM/YYYY"),
+                        startDate: startDate,
+                        street: street,
+                        city: city,
+                        state: inputeState,
+                        zipCode: zipCode,
+                        department: inputeDepartment,
+                      })
+                    );
+                    setFirstName("");
+                    setLastName("");
+                    setDateOfBirth("");
+                    setStartDate("");
+                    setStreet("");
+                    setCity("");
+                    setInputState("--- State ---");
+                    setZipCode("");
+                    setInputDepartment("--- Department ---");
+                    dispatch(openModal());
+                    setErrorMessage(false);
+                    dispatch(employeesAdded());
+                  }
                 }}
               />
             </div>

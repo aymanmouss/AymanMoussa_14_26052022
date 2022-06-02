@@ -6,14 +6,14 @@ let order = "ASD";
 const dataSorting = (tableData, employeesData) => {
   if (order === "ASD") {
     const asd = [...employeesData].sort((a, b) =>
-      a[tableData].toUpperCase() > b[tableData].toUpperCase() ? 1 : -1
+      a[tableData]?.toUpperCase() > b[tableData]?.toUpperCase() ? 1 : -1
     );
     order = "DSC";
     return asd;
   }
   if (order === "DSC") {
     const dsc = [...employeesData].sort((a, b) =>
-      a[tableData].toUpperCase() < b[tableData].toUpperCase() ? 1 : -1
+      a[tableData]?.toUpperCase() < b[tableData]?.toUpperCase() ? 1 : -1
     );
     order = "ASD";
     return dsc;

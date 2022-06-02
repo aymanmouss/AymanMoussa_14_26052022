@@ -150,3 +150,27 @@ table tbody tr:hover {
 .pagination {
   display: flex;
 }
+.successMessage {
+  background-color: #28a744;
+  color: #fff;
+  max-width: 450px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  border-radius: 10px;
+}
+.successMessage p {
+  padding: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.succx {
+  position: absolute;
+  top: 8px;
+  right: 13px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.succx:hover {
+  color: rgb(225, 225, 225);
+}
