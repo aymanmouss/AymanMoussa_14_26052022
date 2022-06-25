@@ -144,7 +144,7 @@ const Modal = () => {
               {/* dropdown menu Module*/}
               <EasyDropDown
                 data={department}
-                placeholder={"--- Department ---"}
+                placeholder={""}
                 label={"Department"}
               />
             </div>
