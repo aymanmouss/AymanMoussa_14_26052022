@@ -12,6 +12,9 @@ const Table = () => {
 
   const dispatch = useDispatch();
   const employeesData = useSelector((state) => state.employees.employeesData);
+  useEffect(() => {
+    setData(employeesData);
+  }, [employeesData]);
 
   // new sorted list of employeesData
   const [data, setData] = useState(employeesData);
@@ -47,14 +50,16 @@ const Table = () => {
   return (
     <div className='table'>
       {employeesAddedState && (
-        <div className='successMessage'>
-          <p>Employee Created!</p>
-          <i
-            onClick={() => dispatch(employeesAdded())}
-            class='fa-solid fa-xmark succx'
-          ></i>
+        <div className='modal-module'>
+          <div className='successMessage'>
+            <p>Employee Created!</p>
+            <div class='progress progress-striped'>
+              <div class='progress-bar'></div>
+            </div>
+          </div>
         </div>
       )}
+
       <h1 className='dashboard-title'>Current Employees</h1>
       <div className='table-header'>
         <div className='entries'>
@@ -349,7 +354,13 @@ const Table = () => {
         </div>
       </div>
       <div className='addData'>
-        <button className='addDataBtn' onClick={() => dispatch(openModal())}>
+        <button
+          className='addDataBtn'
+          onClick={() => {
+            dispatch(openModal());
+            employeesAddedState && dispatch(employeesAdded());
+          }}
+        >
           ADD
         </button>
       </div>

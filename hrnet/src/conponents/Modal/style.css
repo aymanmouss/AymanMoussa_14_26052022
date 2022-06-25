@@ -8,6 +8,9 @@
   background-color: rgb(255, 255, 255);
   z-index: 3;
 }
+.modal-title {
+  font-size: 3em;
+}
 .modal-form {
   margin: 10vh auto;
   max-width: 810px;

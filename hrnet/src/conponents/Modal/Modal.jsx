@@ -5,8 +5,8 @@ import {
   openModal,
   employeesAdded,
 } from "../../redux/employeesSlice";
-import DropDownMenu from "../Module/DropDownMenu";
 import { dataState } from "../Table/dataStates";
+import { EasyDropDown } from "easy-drop";
 import "./style.css";
 const Modal = () => {
   // iput value for State dropdown menu
@@ -40,6 +40,10 @@ const Modal = () => {
   const [errorMessage, setErrorMessage] = useState(false);
   const handlError = () => {
     setErrorMessage(false);
+  };
+  // date of Birth Format
+  const dateOfBirthFormat = (date) => {
+    return date.slice(8, 10) + "-" + date.slice(5, 7) + "-" + date.slice(0, 4);
   };
   if (modaleState) return null;
   return (
@@ -80,6 +84,7 @@ const Modal = () => {
             <div className='employeeInfo multi'>
               <label htmlFor='date-of-birth'>Date of Birth</label>
               <input
+                placeholder='dd-mm-yyyy'
                 value={dateOfBirth}
                 type='date'
                 name='date-of-birth'
@@ -119,9 +124,10 @@ const Modal = () => {
           <div class='formGroup'>
             <div className='employeeInfo multi flex2 relative'>
               {/* dropdown menu Module*/}
-              <DropDownMenu
+              <EasyDropDown
                 data={dataState}
-                inputeDepartments={setInputState}
+                placeholder={""}
+                label={"States"}
               />
             </div>
             <div className='employeeInfo multi'>
@@ -136,9 +142,10 @@ const Modal = () => {
           <div class='formGroup flexStart '>
             <div className='employeeInfo multi flex3 relative'>
               {/* dropdown menu Module*/}
-              <DropDownMenu
+              <EasyDropDown
                 data={department}
-                inputeDepartments={setInputDepartment}
+                placeholder={"--- Department ---"}
+                label={"Department"}
               />
             </div>
             <div className='employeeInfo multi'>
@@ -156,8 +163,8 @@ const Modal = () => {
                       addEmployee({
                         firstName: firstName,
                         lastName: lastName,
-                        dateOfBirth: dateOfBirth.format("DD/MM/YYYY"),
-                        startDate: startDate,
+                        dateOfBirth: dateOfBirthFormat(dateOfBirth),
+                        startDate: dateOfBirthFormat(startDate),
                         street: street,
                         city: city,
                         state: inputeState,
@@ -177,6 +184,9 @@ const Modal = () => {
                     dispatch(openModal());
                     setErrorMessage(false);
                     dispatch(employeesAdded());
+                    setTimeout(() => {
+                      dispatch(employeesAdded());
+                    }, 3000);
                   }
                 }}
               />
