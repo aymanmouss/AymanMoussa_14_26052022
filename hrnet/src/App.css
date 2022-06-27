@@ -16,3 +16,6 @@
   background-color: #0650b7;
   cursor: pointer;
 }
+a {
+  text-decoration: none;
+}

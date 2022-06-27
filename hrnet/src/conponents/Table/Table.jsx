@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { openModal, employeesAdded } from "../../redux/employeesSlice";
+import { useSelector } from "react-redux";
 import Pagination from "../pagination";
 import service from "../services";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
 
 const Table = () => {
+  let navigate = useNavigate();
   const employeesAddedState = useSelector(
     (state) => state.employees.successMessage
   );
 
-  const dispatch = useDispatch();
   const employeesData = useSelector((state) => state.employees.employeesData);
   useEffect(() => {
     setData(employeesData);
@@ -53,8 +53,8 @@ const Table = () => {
         <div className='modal-module'>
           <div className='successMessage'>
             <p>Employee Created!</p>
-            <div class='progress progress-striped'>
-              <div class='progress-bar'></div>
+            <div className='progress progress-striped'>
+              <div className='progress-bar'></div>
             </div>
           </div>
         </div>
@@ -356,9 +356,9 @@ const Table = () => {
       <div className='addData'>
         <button
           className='addDataBtn'
-          onClick={() => {
-            dispatch(openModal());
-            employeesAddedState && dispatch(employeesAdded());
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/", { replace: true });
           }}
         >
           ADD

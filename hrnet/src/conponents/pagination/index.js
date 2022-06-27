@@ -12,7 +12,10 @@ const Pagination = ({ dataPerPage, totalemployees, paginate }) => {
           <p key={number}>
             <a
               className='pagination-link'
-              onClick={() => paginate(number)}
+              onClick={(e) => {
+                e.preventDefault();
+                paginate(number);
+              }}
               href='!#'
             >
               {number}

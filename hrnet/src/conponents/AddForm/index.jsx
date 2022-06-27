@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  addEmployee,
-  openModal,
-  employeesAdded,
-} from "../../redux/employeesSlice";
+import { EasyDrop } from "create-easy-drop";
+import { addEmployee, employeesAdded } from "../../redux/employeesSlice";
+
 import { dataState } from "../Table/dataStates";
-import { EasyDropDown } from "easy-drop";
 import "./style.css";
-const Modal = () => {
+
+import { Link, useNavigate } from "react-router-dom";
+
+const AddForm = () => {
+  let navigate = useNavigate();
   // iput value for State dropdown menu
   const [inputeState, setInputState] = useState("--- State ---");
   // iput value for State dropdown menu
@@ -45,7 +46,7 @@ const Modal = () => {
   const dateOfBirthFormat = (date) => {
     return date.slice(8, 10) + "-" + date.slice(5, 7) + "-" + date.slice(0, 4);
   };
-  if (modaleState) return null;
+
   return (
     <div className='modal'>
       {errorMessage && (
@@ -54,15 +55,17 @@ const Modal = () => {
             At least the firstName and lastName must be filled out when creating
             an employee.
           </p>
-          <i onClick={handlError} class='fa-solid fa-xmark errx'></i>
+          <i onClick={handlError} className='fa-solid fa-xmark errx'></i>
         </div>
       )}
       <div className='modal-form'>
-        <i class='fa-solid fa-x' onClick={() => dispatch(openModal())}></i>
+        <Link to='/table'>
+          <i className='fa-solid fa-x'></i>
+        </Link>
         <h1 className='modal-title'>HRnet</h1>
         <p className='form-title'>Create Employee:</p>
         <form className='formMain'>
-          <div class='formGroup'>
+          <div className='formGroup'>
             <div className='employeeInfo multi'>
               <label htmlFor='first-name'>First Name</label>
               <input
@@ -101,7 +104,7 @@ const Modal = () => {
               onChange={(e) => setStartDate(e.target.value)}
             />
           </div>
-          <div class='formGroup'>
+          <div className='formGroup'>
             <div className='employeeInfo multi'>
               <label htmlFor='street'>Street</label>
               <input
@@ -121,13 +124,15 @@ const Modal = () => {
               />
             </div>
           </div>
-          <div class='formGroup'>
+          <div className='formGroup'>
             <div className='employeeInfo multi flex2 relative'>
               {/* dropdown menu Module*/}
-              <EasyDropDown
+              <EasyDrop
                 data={dataState}
                 placeholder={""}
                 label={"States"}
+                inputeDepartments={setInputState}
+                name={"state"}
               />
             </div>
             <div className='employeeInfo multi'>
@@ -139,13 +144,15 @@ const Modal = () => {
               />
             </div>
           </div>
-          <div class='formGroup flexStart '>
+          <div className='formGroup flexStart '>
             <div className='employeeInfo multi flex3 relative'>
               {/* dropdown menu Module*/}
-              <EasyDropDown
+              <EasyDrop
                 data={department}
                 placeholder={""}
                 label={"Department"}
+                name={"department"}
+                inputeDepartments={setInputDepartment}
               />
             </div>
             <div className='employeeInfo multi'>
@@ -172,6 +179,7 @@ const Modal = () => {
                         department: inputeDepartment,
                       })
                     );
+                    navigate("/table", { replace: true });
                     setFirstName("");
                     setLastName("");
                     setDateOfBirth("");
@@ -181,7 +189,6 @@ const Modal = () => {
                     setInputState("--- State ---");
                     setZipCode("");
                     setInputDepartment("--- Department ---");
-                    dispatch(openModal());
                     setErrorMessage(false);
                     dispatch(employeesAdded());
                     setTimeout(() => {
@@ -198,4 +205,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default AddForm;

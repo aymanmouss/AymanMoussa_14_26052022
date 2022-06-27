@@ -1,12 +1,16 @@
 import "./App.css";
-import Modal from "./conponents/Modal/Modal";
+import AddForm from "./conponents/AddForm";
 import Table from "./conponents/Table/Table";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <div className='container'>
-      <Modal />
-      <Table />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<AddForm />} />
+          <Route path='table' element={<Table />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
