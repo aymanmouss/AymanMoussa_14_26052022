@@ -1,7 +1,3 @@
-
-![Logo](https://i.postimg.cc/9XKCB07y/Screenshot-2022-06-27-at-11-55-09.png)
-
-
 # HRnet
 
 An internal web application, called HRnet, which a role to manages employee records.
