@@ -1,6 +1,6 @@
 # HRnet
 
-An internal web application, called HRnet, which a role to manages employee records.
+HRnet, is an internal web application used for managing employee records.
 
 
 ## Tech Stack
