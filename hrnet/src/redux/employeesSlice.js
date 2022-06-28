@@ -94,6 +94,8 @@ export const employeesSlice = createSlice({
   initialState: {
     employeesData: employeesDatatest,
     successMessage: false,
+    dateOfStart: "",
+    dateOfBirth: "",
   },
   reducers: {
     addEmployee: (state, action) => {
@@ -102,8 +104,15 @@ export const employeesSlice = createSlice({
     employeesAdded: (state) => {
       state.successMessage = !state.successMessage;
     },
+    dateOfStart: (state, action) => {
+      state.dateOfStart = action.payload;
+    },
+    dateOfBirth: (state, action) => {
+      state.dateOfBirth = action.payload;
+    },
   },
 });
-export const { addEmployee, employeesAdded } = employeesSlice.actions;
+export const { addEmployee, employeesAdded, dateOfStart, dateOfBirth } =
+  employeesSlice.actions;
 
 export default employeesSlice.reducer;

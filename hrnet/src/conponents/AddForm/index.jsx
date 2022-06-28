@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { EasyDrop } from "create-easy-drop";
-import { addEmployee, employeesAdded } from "../../redux/employeesSlice";
-
+import {
+  addEmployee,
+  employeesAdded,
+  dateOfStart,
+  dateOfBirth,
+} from "../../redux/employeesSlice";
 import { dataState } from "../Table/dataStates";
 import "./style.css";
 
 import { Link, useNavigate } from "react-router-dom";
+
+import { useEffect } from "react";
+import DatePicker from "../Plugins/DatePicker";
 
 const AddForm = () => {
   let navigate = useNavigate();
@@ -25,7 +32,9 @@ const AddForm = () => {
 
   // modal display from redux state
   const dispatch = useDispatch();
-  const modaleState = useSelector((state) => state.employees.modal);
+  // const modaleState = useSelector((state) => state.employees.modal);
+  const dateOfStart = useSelector((state) => state.employees.dateOfStart);
+  const dateBirth = useSelector((state) => state.employees.dateOfBirth);
 
   const department = [
     "Sales",
@@ -46,7 +55,7 @@ const AddForm = () => {
   const dateOfBirthFormat = (date) => {
     return date.slice(8, 10) + "-" + date.slice(5, 7) + "-" + date.slice(0, 4);
   };
-
+  const artDate = "";
   return (
     <div className='modal'>
       {errorMessage && (
@@ -85,23 +94,20 @@ const AddForm = () => {
               />
             </div>
             <div className='employeeInfo multi'>
-              <label htmlFor='date-of-birth'>Date of Birth</label>
-              <input
-                placeholder='dd-mm-yyyy'
+              <DatePicker
+                name={"date-of-birth"}
                 value={dateOfBirth}
-                type='date'
-                name='date-of-birth'
-                onChange={(e) => setDateOfBirth(e.target.value)}
+                setValue={setDateOfBirth}
+                label={"Date of Birth"}
               />
             </div>
           </div>
           <div className='employeeInfo'>
-            <label htmlFor='start-date'>Start Date</label>
-            <input
+            <DatePicker
+              name={"start-date"}
               value={startDate}
-              type='date'
-              name='start-date'
-              onChange={(e) => setStartDate(e.target.value)}
+              setValue={setStartDate}
+              label={"Start Date"}
             />
           </div>
           <div className='formGroup'>

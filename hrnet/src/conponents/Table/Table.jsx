@@ -4,6 +4,7 @@ import Pagination from "../pagination";
 import service from "../services";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
+import Modal from "../Plugins/Modal";
 
 const Table = () => {
   let navigate = useNavigate();
@@ -49,17 +50,7 @@ const Table = () => {
 
   return (
     <div className='table'>
-      {employeesAddedState && (
-        <div className='modal-module'>
-          <div className='successMessage'>
-            <p>Employee Created!</p>
-            <div className='progress progress-striped'>
-              <div className='progress-bar'></div>
-            </div>
-          </div>
-        </div>
-      )}
-
+      {employeesAddedState && <Modal />}
       <h1 className='dashboard-title'>Current Employees</h1>
       <div className='table-header'>
         <div className='entries'>
